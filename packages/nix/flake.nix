@@ -4,19 +4,19 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
-    millennium-src.url = "github:SteamClientHomebrew/Millennium/1bc62c94a06f25f7e8d7e269f11cd968cf576bff?shallow=true";
+    millennium-src.url = "github:SteamClientHomebrew/Millennium/next";
     millennium-src.flake = false;
 
-    zlib-src.url = "github:zlib-ng/zlib-ng/2.2.5?shallow=true";
-    luajit-src.url = "github:SteamClientHomebrew/LuaJIT/v2.1?shallow=true";
-    luajson-src.url = "github:SteamClientHomebrew/LuaJSON/master?shallow=true";
-    websocketpp-src.url = "github:zaphoyd/websocketpp/0.8.2?shallow=true";
-    fmt-src.url = "github:fmtlib/fmt/12.0.0?shallow=true";
-    json-src.url = "github:nlohmann/json/v3.12.0?shallow=true";
-    minizip-src.url = "github:zlib-ng/minizip-ng/4.0.10?shallow=true";
-    curl-src.url = "github:curl/curl/curl-8_13_0?shallow=true";
-    incbin-src.url = "github:graphitemaster/incbin/22061f51fe9f2f35f061f85c2b217b55dd75310d?shallow=true";
-    asio-src.url = "github:chriskohlhoff/asio/asio-1-30-0?shallow=true";
+    zlib-src.url = "github:zlib-ng/zlib-ng/2.2.5";
+    luajit-src.url = "github:SteamClientHomebrew/LuaJIT/v2.1";
+    luajson-src.url = "github:SteamClientHomebrew/LuaJSON/master";
+    websocketpp-src.url = "github:zaphoyd/websocketpp/0.8.2";
+    fmt-src.url = "github:fmtlib/fmt/12.0.0";
+    json-src.url = "github:nlohmann/json/v3.12.0";
+    minizip-src.url = "github:zlib-ng/minizip-ng/4.0.10";
+    curl-src.url = "github:curl/curl/curl-8_13_0";
+    incbin-src.url = "github:graphitemaster/incbin/22061f51fe9f2f35f061f85c2b217b55dd75310d";
+    asio-src.url = "github:chriskohlhoff/asio/asio-1-30-0";
 
     abseil-src.url = "github:abseil/abseil-cpp/20240722.0";
     re2-src.url = "github:google/re2/2025-11-05";
@@ -55,14 +55,12 @@
             inherit inputs;
             inherit (packages)
               millennium-shims
-              millennium-assets
               millennium-frontend
               ;
           };
 
           packages = {
             default             = packages.millennium-steam;
-            millennium-assets   = pkgs.callPackage ./assets.nix         { inherit millennium-src; };
             millennium-frontend = pkgs.callPackage ./frontend.nix       { inherit millennium-src; };
             millennium-shims    = pkgs.callPackage ./shims.nix          { inherit millennium-src; };
             millennium-32       = pkgs.callPackage ./millennium-32.nix  ( millennium-deps );

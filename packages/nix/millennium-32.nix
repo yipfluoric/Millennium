@@ -8,6 +8,7 @@
 
   lib,
   pkgsi686Linux,
+  stdenv,
 
   inputs,
   millennium-shims,

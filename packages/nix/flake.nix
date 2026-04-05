@@ -4,19 +4,19 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
-    millennium-src.url = "github:SteamClientHomebrew/Millennium/1bc62c94a06f25f7e8d7e269f11cd968cf576bff;
+    millennium-src.url = "github:SteamClientHomebrew/Millennium/1bc62c94a06f25f7e8d7e269f11cd968cf576bff";
     millennium-src.flake = false;
 
-    zlib-src.url = "github:zlib-ng/zlib-ng/2.2.5;
-    luajit-src.url = "github:SteamClientHomebrew/LuaJIT/v2.1;
-    luajson-src.url = "github:SteamClientHomebrew/LuaJSON/master;
-    websocketpp-src.url = "github:zaphoyd/websocketpp/0.8.2;
-    fmt-src.url = "github:fmtlib/fmt/12.0.0;
-    json-src.url = "github:nlohmann/json/v3.12.0;
-    minizip-src.url = "github:zlib-ng/minizip-ng/4.0.10;
-    curl-src.url = "github:curl/curl/curl-8_13_0;
-    incbin-src.url = "github:graphitemaster/incbin/22061f51fe9f2f35f061f85c2b217b55dd75310d;
-    asio-src.url = "github:chriskohlhoff/asio/asio-1-30-0;
+    zlib-src.url = "github:zlib-ng/zlib-ng/2.2.5";
+    luajit-src.url = "github:SteamClientHomebrew/LuaJIT/v2.1";
+    luajson-src.url = "github:SteamClientHomebrew/LuaJSON/master";
+    websocketpp-src.url = "github:zaphoyd/websocketpp/0.8.2";
+    fmt-src.url = "github:fmtlib/fmt/12.0.0";
+    json-src.url = "github:nlohmann/json/v3.12.0";
+    minizip-src.url = "github:zlib-ng/minizip-ng/4.0.10";
+    curl-src.url = "github:curl/curl/curl-8_13_0";
+    incbin-src.url = "github:graphitemaster/incbin/22061f51fe9f2f35f061f85c2b217b55dd75310d";
+    asio-src.url = "github:chriskohlhoff/asio/asio-1-30-0";
 
     abseil-src.url = "github:abseil/abseil-cpp/20240722.0";
     re2-src.url = "github:google/re2/2025-11-05";

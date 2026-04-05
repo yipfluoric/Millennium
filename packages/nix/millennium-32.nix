@@ -34,8 +34,6 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     pkgsi686Linux.libidn2
     pkgsi686Linux.libpsl
     pkgsi686Linux.openssl
-    pkgsi686Linux.libx11
-    pkgsi686Linux.libxtst
     pkgsi686Linux.brotli
     pkgsi686Linux.xz
     pkgsi686Linux.zstd

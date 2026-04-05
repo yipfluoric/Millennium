@@ -4,11 +4,13 @@
   bun,
   pkg-config,
   git,
+  nghttp2,
+  libxtst,
+  libx11,
   cacert,
 
   lib,
   pkgsi686Linux,
-  pkgs,
   stdenv,
 
   inputs,

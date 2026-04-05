@@ -17,6 +17,7 @@
     curl-src.url = "github:curl/curl/curl-8_13_0";
     incbin-src.url = "github:graphitemaster/incbin/22061f51fe9f2f35f061f85c2b217b55dd75310d";
     asio-src.url = "github:chriskohlhoff/asio/asio-1-30-0";
+    nghttp2-src.url = "github:nghttp2/nghttp2/v1.68.x";
 
     abseil-src.url = "github:abseil/abseil-cpp/20240722.0";
     re2-src.url = "github:google/re2/2025-11-05";
@@ -31,6 +32,7 @@
     curl-src.flake = false;
     incbin-src.flake = false;
     asio-src.flake = false;
+    nghttp2-src.flake = false;
 
     abseil-src.flake = false;
     re2-src.flake = false;
@@ -53,10 +55,6 @@
 
           millennium-deps = {
             inherit inputs;
-            inherit (packages)
-              millennium-shims
-              millennium-frontend
-              ;
           };
 
           packages = {

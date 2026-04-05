@@ -36,7 +36,6 @@ stdenv.mkDerivation (finalAttrs: {
     pkgsi686Linux.brotli
     pkgsi686Linux.xz
     pkgsi686Linux.zstd
-    nghttp2
     cacert
     libxtst
     libx11
@@ -49,8 +48,6 @@ stdenv.mkDerivation (finalAttrs: {
   cmakeFlags = [
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
-    "-DNIX_FRONTEND=${millennium-frontend}/share/frontend"
-    "-DNIX_SHIMS=${millennium-shims}/share/millennium/shims"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];
@@ -82,6 +79,7 @@ stdenv.mkDerivation (finalAttrs: {
           "asio"
           "abseil"
           "re2"
+          "nghttp2"
         ];
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)

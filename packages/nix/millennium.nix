@@ -5,6 +5,7 @@
   fetchFromGitHub,
 
   inputs,
+  pkgsi686Linux,
   millennium-shims,
   millennium-assets,
   millennium-frontend,

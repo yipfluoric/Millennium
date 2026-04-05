@@ -13,7 +13,7 @@
   ...
 }:
 stdenv.mkDerivation (finalAttrs: {
-  pname = "millennium-32";
+  pname = "millennium";
   version = "3.0.0";
 
   src = inputs.millennium-src;

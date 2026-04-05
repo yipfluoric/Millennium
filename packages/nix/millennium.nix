@@ -8,6 +8,7 @@
 
   lib,
   pkgsi686Linux,
+  pkgs,
   stdenv,
 
   inputs,
@@ -36,6 +37,7 @@ stdenv.mkDerivation (finalAttrs: {
     pkgsi686Linux.brotli
     pkgsi686Linux.xz
     pkgsi686Linux.zstd
+    pkgs.nghttp2
     cacert
     libxtst
     libx11
@@ -79,7 +81,6 @@ stdenv.mkDerivation (finalAttrs: {
           "asio"
           "abseil"
           "re2"
-          "nghttp2"
         ];
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)

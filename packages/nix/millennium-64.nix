@@ -38,7 +38,6 @@ stdenv.mkDerivation (finalAttrs: {
     pkgsi686Linux.zstd
     cacert
     perl
-    libgcc
   ];
 
   cmakeGenerator = "Ninja";

@@ -4,7 +4,6 @@
   bun,
   pkg-config,
   git,
-  nghttp2,
   cacert,
 
   lib,
@@ -14,7 +13,7 @@
   ...
 }:
 stdenv.mkDerivation (finalAttrs: {
-  pname = "millennium-32";
+  pname = "millennium-64";
   version = "3.0.0";
 
   src = inputs.millennium-src;
@@ -22,13 +21,12 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     cmake
     ninja
-    bun
     pkg-config
     git
+    bun
   ];
 
   buildInputs = [
-    nghttp2
     cacert
   ];
 
@@ -45,14 +43,14 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   postPatch = ''
-    mkdir -p _deps
+    mkdir -p deps
 
     prepare_dep() {
       local name="$1"
       local src="$2"
       echo "[Nix Millennium Build Setup] Preparing dependency: $name"
-      cp -r --no-preserve=mode "$src" "_deps/$name"
-      chmod -R u+w "_deps/$name"
+      cp -r --no-preserve=mode "$src" "deps/$name"
+      chmod -R u+w "deps/$name"
     }
 
     echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
@@ -70,11 +68,14 @@ stdenv.mkDerivation (finalAttrs: {
           "asio"
           "abseil"
           "re2"
-          "snare"
         ];
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
     }
+    
+    echo "[Nix Millennium Build Setup] Preparing dependency: snare"
+    cp -r --no-preserve=mode "${inputs.snare-src}" "_deps/snare-src"
+    chmod -R u+w "_deps/snare-src"
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"
     echo "[Nix Millennium Build Setup] Dummy commits are used to determine versions, but flake inputs strip git history, causing issues"
@@ -87,13 +88,9 @@ stdenv.mkDerivation (finalAttrs: {
 
     git init
     git add .
-    git commit -m "Dummy commit for Nix Build" > /dev/null 2>&1
+    git commit -m "Dummy commit for build" > /dev/null 2>&1
 
-    git init _deps/luajit
-    git -C _deps/luajit add .
-    git -C _deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
-
-    chmod -R u+rwx _deps/
+    chmod -R u+rwx deps/
 
     echo "[Nix] Patching CMakeLists to IGNORE 32-bit source..."
     sed -i '/add_subdirectory.*src)/s/^/#/' CMakeLists.txt
@@ -112,7 +109,6 @@ stdenv.mkDerivation (finalAttrs: {
     install -Dm755 src/hhx64/libmillennium_hhx64.so                     $out/lib/libmillennium_hhx64.so
     install -Dm755 src/boot/linux/libmillennium_bootstrap_hhx64.so      $out/lib/libmillennium_bootstrap_hhx64.so
     install -Dm755 libmillennium_pvs64                                  $out/lib/libmillennium_pvs64
-
     runHook postInstall
   '';
 

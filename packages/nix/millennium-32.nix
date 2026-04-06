@@ -48,20 +48,20 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
   cmakeFlags = [
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
-    "-DFETCHCONTENT_FULLY_DISCONNECTED_SNARE=ON"
+    "-DFETCHCONTENT_FULLY_DISCONNECTED=ON"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];
 
   postPatch = ''
-    mkdir -p _deps
+    mkdir -p deps
 
     prepare_dep() {
       local name="$1"
       local src="$2"
       echo "[Nix Millennium Build Setup] Preparing dependency: $name"
-      cp -r --no-preserve=mode "$src" "_deps/$name"
-      chmod -R u+w "_deps/$name"
+      cp -r --no-preserve=mode "$src" "deps/$name"
+      chmod -R u+w "deps/$name"
     }
 
     echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
@@ -80,11 +80,14 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
           "asio"
           "abseil"
           "re2"
-          "snare"
         ];
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
     }
+    
+    echo "[Nix Millennium Build Setup] Preparing dependency: snare"
+    cp -r --no-preserve=mode "${inputs.snare-src}" "_deps/snare-src"
+    chmod -R u+w "_deps/snare-src"
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"
     echo "[Nix Millennium Build Setup] Dummy commits are used to determine versions, but flake inputs strip git history, causing issues"
@@ -99,17 +102,11 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     git add .
     git commit -m "Dummy commit for Nix Build" > /dev/null 2>&1
 
-    git init _deps/luajit
-    git -C _deps/luajit add .
-    git -C _deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
+    git init deps/luajit
+    git -C deps/luajit add .
+    git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
 
-    chmod -R u+rwx _deps/
-
-    echo "[Nix] Patching root CMakeLists to IGNORE 64-bit source..."
-    sed -i '/add_subdirectory.*src\/hhx64)/s/^/#/' CMakeLists.txt
-
-    echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
-    sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt
+    chmod -R u+rwx deps/
   '';
 
   buildPhase = ''
@@ -126,7 +123,6 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     install -Dm755 src/libmillennium_x86.so                             $out/lib/libmillennium_x86.so
     install -Dm755 src/boot/linux/libmillennium_bootstrap_x86.so        $out/lib/libmillennium_bootstrap_x86.so
     install -Dm755 src/libmillennium_luavm_x86                          $out/lib/libmillennium_luavm_x86
-    install -Dm755 libmillennium_pvs64                                  $out/lib/libmillennium_pvs64
 
     runHook postInstall
   '';

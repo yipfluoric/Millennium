@@ -54,10 +54,23 @@ stdenv.mkDerivation (finalAttrs: {
       chmod -R u+w "deps/$name"
     }
 
-
-    echo "[Nix Millennium Build Setup] Copying flake inputs to local writable directories"
-    prepare_dep abseil "${inputs.abseil-src}"
-    prepare_dep re2 "${inputs.re2-src}"
+    echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
+    ${
+      let
+        deps = [
+          "websocketpp"
+          "fmt"
+          "json"
+          "minizip"
+          "curl"
+          "incbin"
+          "asio"
+          "abseil"
+          "re2"
+        ];
+      in
+      lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
+    }
 
     echo "[Nix Millennium Build Setup] Preparing dependency: snare"
     cp -r --no-preserve=mode "${inputs.snare-src}" "build/_deps/snare-src"

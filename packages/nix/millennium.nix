@@ -52,7 +52,7 @@ stdenv.mkDerivation (finalAttrs: {
   cmakeFlags = [
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
-    "-DFETCHCONTENT_UPDATES_DISCONNECTED_SNARE=ON"
+    "-DFETCHCONTENT_UPDATES_DISCONNECTED_snare=ON"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];

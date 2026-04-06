@@ -48,21 +48,20 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
   cmakeFlags = [
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
-    "-DFETCHCONTENT_SOURCE_DIR_SNARE=/build/_deps/snare-src"
+    "-DFETCHCONTENT_SOURCE_DIR_SNARE=deps/snare"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];
 
   postPatch = ''
     mkdir -p deps
-    mkdir -p build/_deps
 
     prepare_dep() {
       local name="$1"
       local src="$2"
       echo "[Nix Millennium Build Setup] Preparing dependency: $name"
-      cp -r --no-preserve=mode "$src" "build/_deps/$name"
-      chmod -R u+w "build/_deps/$name"
+      cp -r --no-preserve=mode "$src" "deps/$name"
+      chmod -R u+w "deps/$name"
     }
 
     echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
@@ -81,14 +80,11 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
           "asio"
           "abseil"
           "re2"
+          "snare"
         ];
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
     }
-    
-    echo "[Nix Millennium Build Setup] Preparing dependency: snare"
-    cp -r --no-preserve=mode "${inputs.snare-src}" "build/_deps/snare-src"
-    chmod -R u+w "build/_deps/snare-src"
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"
     echo "[Nix Millennium Build Setup] Dummy commits are used to determine versions, but flake inputs strip git history, causing issues"
@@ -103,11 +99,11 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     git add .
     git commit -m "Dummy commit for Nix Build" > /dev/null 2>&1
 
-    git init build/_deps/luajit
-    git -C build/_deps/luajit add .
-    git -C build/_deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
+    git init deps/luajit
+    git -C deps/luajit add .
+    git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
 
-    chmod -R u+rwx build/_deps
+    chmod -R u+rwx deps
 
     echo "[Nix] Patching root CMakeLists to IGNORE 64-bit source..."
     sed -i '/add_subdirectory.*src\/hhx64)/s/^/#/' CMakeLists.txt
@@ -119,7 +115,7 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
   buildPhase = ''
     runHook preBuild
     cmake --preset linux-release
-    cmake --build build
+    cmake --build .
     runHook postBuild
   '';
 

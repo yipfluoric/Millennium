@@ -100,11 +100,15 @@ stdenv.mkDerivation (finalAttrs: {
 
     git init
     git add .
-    git commit -m "Dummy commit for build" > /dev/null 2>&1
+    git commit -m "Dummy commit for Nix Build" > /dev/null 2>&1
 
     git init deps/luajit
     git -C deps/luajit add .
-    git -C deps/luajit commit -m "Dummy Commit for Nix Build" > /dev/null 2>&1
+    git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
+
+    git init deps/snare
+    git -C deps/snare add .
+    git -C deps/snare commit -m "Dummy Commit for Snare Build" > /dev/null 2>&1
 
     chmod -R u+rwx deps/
 
@@ -117,6 +121,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildPhase = ''
     runHook preBuild
+    cmake --preset linux-release
     cmake --build .
     runHook postBuild
   '';

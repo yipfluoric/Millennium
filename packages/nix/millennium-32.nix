@@ -41,6 +41,14 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     perl
     cacert
   ];
+  
+  shellHook = ''
+    export CMAKE_THREAD_LIBS_INIT="-lpthread"
+    export CMAKE_HAVE_THREADS_LIBRARY=1
+    export CMAKE_USE_WIN32_THREADS_INIT=0
+    export CMAKE_USE_PTHREADS_INIT=1
+    export THREADS_PREFER_PTHREAD_FLAG=ON
+  '';
 
   cmakeGenerator = "Ninja";
   cmakeBuildType = "Release";

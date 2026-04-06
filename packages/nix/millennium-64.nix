@@ -32,6 +32,14 @@ stdenv.mkDerivation (finalAttrs: {
     perl
   ];
 
+  shellHook = ''
+    export CMAKE_THREAD_LIBS_INIT="-lpthread"
+    export CMAKE_HAVE_THREADS_LIBRARY=1
+    export CMAKE_USE_WIN32_THREADS_INIT=0
+    export CMAKE_USE_PTHREADS_INIT=1
+    export THREADS_PREFER_PTHREAD_FLAG=ON
+  '';
+  
   cmakeGenerator = "Ninja";
   cmakeBuildType = "Release";
   enableParallelBuilding = true;
@@ -92,6 +100,11 @@ stdenv.mkDerivation (finalAttrs: {
     git commit -m "Dummy commit for build" > /dev/null 2>&1
 
     chmod -R u+rwx deps
+    echo "[Nix] Patching CMakeLists to IGNORE 32 bit zlib..."
+    sed -i '/add_subdirectory.*src\/hhx64)/s/^/#/' CMakeLists.txt
+    
+    echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
+    sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt
   '';
 
   buildPhase = ''

@@ -5,9 +5,14 @@
   pkg-config,
   git,
   pkgsi686Linux,
-  cacert,
-  perl,
+  glibc,
   libgcc,
+  libidn2,
+  libpsl,
+  openssl,
+  brotli,
+  xz,
+  zstd,
   
   lib,
   stdenv,
@@ -30,17 +35,16 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
-    pkgsi686Linux.glibc
-    pkgsi686Linux.libgcc
-    pkgsi686Linux.libidn2
-    pkgsi686Linux.libpsl
-    pkgsi686Linux.openssl
-    pkgsi686Linux.brotli
-    pkgsi686Linux.xz
-    pkgsi686Linux.zstd
+    glibc
+    libgcc
+    libidn2
+    libpsl
+    openssl
+    brotli
+    xz
+    zstd
     cacert
     perl
-    libgcc
   ];
 
   cmakeGenerator = "Ninja";

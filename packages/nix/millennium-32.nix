@@ -4,6 +4,7 @@
   bun,
   pkg-config,
   git,
+  nghttp2,
   cacert,
 
   lib,
@@ -11,8 +12,6 @@
   stdenv,
 
   inputs,
-  millennium-shims,
-  millennium-frontend,
   ...
 }:
 pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
@@ -38,7 +37,6 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     pkgsi686Linux.brotli
     pkgsi686Linux.xz
     pkgsi686Linux.zstd
-    pkgsi686Linux.bun
     nghttp2
     cacert
   ];
@@ -50,8 +48,7 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
   cmakeFlags = [
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
-    "-DNIX_FRONTEND=${millennium-frontend}/share/frontend"
-    "-DNIX_SHIMS=${millennium-shims}/share/millennium/shims"
+    "-DFETCHCONTENT_FULLY_DISCONNECTED=ON"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];
@@ -83,6 +80,7 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
           "asio"
           "abseil"
           "re2"
+          "snare"
         ];
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
@@ -99,19 +97,13 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
 
     git init
     git add .
-    git commit -m "Dummy commit for build" > /dev/null 2>&1
+    git commit -m "Dummy commit for Nix Build" > /dev/null 2>&1
 
     git init deps/luajit
     git -C deps/luajit add .
-    git -C deps/luajit commit -m "Dummy Commit for Nix Build" > /dev/null 2>&1
+    git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
 
     chmod -R u+rwx deps/
-
-    echo "[Nix] Patching root CMakeLists to IGNORE 64-bit source..."
-    sed -i '/add_subdirectory.*src\/hhx64)/s/^/#/' CMakeLists.txt
-
-    echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
-    sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt
   '';
 
   buildPhase = ''
@@ -124,9 +116,10 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/lib/
-    install -Dm755 src/libmillennium_x86.so                      $out/lib/libmillennium_x86.so
-    install -Dm755 src/boot/linux/libmillennium_bootstrap_x86.so $out/lib/libmillennium_bootstrap_x86.so
-    install -Dm755 src/libmillennium_luavm_x86                   $out/lib/libmillennium_luavm_x86
+
+    install -Dm755 src/libmillennium_x86.so                             $out/lib/libmillennium_x86.so
+    install -Dm755 src/boot/linux/libmillennium_bootstrap_x86.so        $out/lib/libmillennium_bootstrap_x86.so
+    install -Dm755 src/libmillennium_luavm_x86                          $out/lib/libmillennium_luavm_x86
 
     runHook postInstall
   '';

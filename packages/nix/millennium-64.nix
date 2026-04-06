@@ -37,7 +37,6 @@ stdenv.mkDerivation (finalAttrs: {
   enableParallelBuilding = true;
 
   cmakeFlags = [
-    "-DCMAKE_HAVE_THREADS_LIBRARY=0"
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
     "-DLJ_DETECTED_ARCH=x86_64"
@@ -98,8 +97,6 @@ stdenv.mkDerivation (finalAttrs: {
 
 
     chmod -R u+rwx deps
-    echo "[Nix] Patching CMakeLists to IGNORE 32 bit zlib..."
-    sed -i '/add_subdirectory.*src\/hhx64)/s/^/#/' CMakeLists.txt
     
     echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
     sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt

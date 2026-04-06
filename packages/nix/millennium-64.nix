@@ -4,15 +4,10 @@
   bun,
   pkg-config,
   git,
-  libgcc,
-  libidn2,
-  libpsl,
-  openssl,
-  brotli,
-  xz,
-  zstd,
+  pkgsi686Linux,
   cacert,
   perl,
+  
   lib,
   stdenv,
 
@@ -34,15 +29,17 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
-    libgcc
-    libidn2
-    libpsl
-    openssl
-    brotli
-    xz
-    zstd
+    pkgsi686Linux.glibc
+    pkgsi686Linux.libgcc
+    pkgsi686Linux.libidn2
+    pkgsi686Linux.libpsl
+    pkgsi686Linux.openssl
+    pkgsi686Linux.brotli
+    pkgsi686Linux.xz
+    pkgsi686Linux.zstd
     cacert
     perl
+    libgcc
   ];
 
   cmakeGenerator = "Ninja";
@@ -110,9 +107,6 @@ stdenv.mkDerivation (finalAttrs: {
 
 
     chmod -R u+rwx deps
-    
-    echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
-    sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt
   '';
 
   buildPhase = ''

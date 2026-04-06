@@ -58,8 +58,6 @@ stdenv.mkDerivation (finalAttrs: {
     ${
       let
         deps = [
-          "luajit"
-          "luajson"
           "websocketpp"
           "fmt"
           "json"

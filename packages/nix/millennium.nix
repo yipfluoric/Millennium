@@ -108,6 +108,9 @@ stdenv.mkDerivation (finalAttrs: {
     git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
 
     chmod -R u+rwx deps/
+    
+    echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
+    sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt
   '';
 
   buildPhase = ''

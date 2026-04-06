@@ -88,6 +88,9 @@ stdenv.mkDerivation (finalAttrs: {
 
     chmod -R u+rwx deps
     
+    echo "[Nix] Patching CMakeLists to IGNORE 32-bit source..."
+    sed -i '/add_subdirectory.*src)/s/^/#/' CMakeLists.txt
+
     echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
     sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt
   '';

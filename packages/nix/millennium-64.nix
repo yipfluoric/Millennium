@@ -73,7 +73,7 @@ stdenv.mkDerivation (finalAttrs: {
           "snare"
         ];
       in
-      lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${_dep}-src"}\"\n") deps)
+      lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
     }
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"

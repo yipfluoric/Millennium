@@ -3,32 +3,33 @@
   ninja,
   pkg-config,
   git,
+  bun,
+  nghttp2,
   cacert,
 
   lib,
   stdenv,
 
   inputs,
-  millennium-shims,
-  millennium-assets,
-  millennium-frontend,
   ...
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "millennium-64";
-  version = "2.34.0";
+  version = "3.0.0";
 
   src = inputs.millennium-src;
 
   nativeBuildInputs = [
     cmake
     ninja
+    bun
     pkg-config
     git
   ];
 
   buildInputs = [
     cacert
+    nghttp2
   ];
 
   cmakeGenerator = "Ninja";
@@ -39,6 +40,8 @@ stdenv.mkDerivation (finalAttrs: {
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
     "-DFETCHCONTENT_FULLY_DISCONNECTED=ON"
+    "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
+    "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];
 
   postPatch = ''
@@ -76,7 +79,7 @@ stdenv.mkDerivation (finalAttrs: {
 
     chmod -R u+rwx deps/
     chmod -R u+rwx build/_deps
-    
+
     echo "[Nix] Patching CMakeLists to IGNORE 32-bit source..."
     sed -i '/add_subdirectory.*src)/s/^/#/' CMakeLists.txt
   '';

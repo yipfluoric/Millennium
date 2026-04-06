@@ -47,7 +47,6 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
   enableParallelBuilding = true;
 
   cmakeFlags = [
-    "-DCMAKE_THREAD_LIBS_INIT="-lpthread""
     "-DCMAKE_HAVE_THREADS_LIBRARY=1"
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"

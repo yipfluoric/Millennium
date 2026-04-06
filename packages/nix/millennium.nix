@@ -83,7 +83,6 @@ stdenv.mkDerivation (finalAttrs: {
           "asio"
           "abseil"
           "re2"
-          "libgit2"
         ];
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)

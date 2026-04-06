@@ -8,7 +8,6 @@
   libxtst,
   libx11,
   cacert,
-  snare-src,
 
   lib,
   pkgsi686Linux,
@@ -53,7 +52,7 @@ stdenv.mkDerivation (finalAttrs: {
   cmakeFlags = [
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
-    "-DFETCHCONTENT_SOURCE_DIR_SNARE=${snare-src}"
+    "-DFETCHCONTENT_UPDATES_DISCONNECTED_SNARE=ON"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];

@@ -13,7 +13,7 @@
   inputs,
   ...
 }:
-pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation (finalAttrs: {
   pname = "millennium-32";
   version = "3.0.0";
 

@@ -5,7 +5,7 @@
   pkg-config,
   git,
   cacert,
-  pkgsi686linux,
+  pkgsi686Linux,
 
   lib,
   stdenv,
@@ -28,7 +28,7 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
-    pkgsi686linux.zlib-ng
+    pkgsi686Linux.zlib-ng
     pkgsi686Linux.libgcc
     pkgsi686Linux.libidn2
     pkgsi686Linux.libpsl

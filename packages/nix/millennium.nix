@@ -5,6 +5,7 @@
   pkg-config,
   git,
   cacert,
+  perl,
   pkgsi686Linux,
 
   lib,
@@ -36,6 +37,7 @@ stdenv.mkDerivation (finalAttrs: {
     pkgsi686Linux.brotli
     pkgsi686Linux.xz
     pkgsi686Linux.zstd
+    perl
     cacert
   ];
 

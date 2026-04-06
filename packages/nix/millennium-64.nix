@@ -61,7 +61,7 @@ stdenv.mkDerivation (finalAttrs: {
     prepare_dep re2 "${inputs.re2-src}"
     
     echo "[Nix Millennium Build Setup] Preparing dependency: snare"
-    cp -r --no-preserve=mode "${inputs.snare-src}" "_deps/snare-src"
+    cp -r --no-preserve=mode "${inputs.snare-src}" "build/_deps/snare-src"
     chmod -R u+w "build/_deps/snare-src"
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"

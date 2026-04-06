@@ -87,9 +87,6 @@ stdenv.mkDerivation (finalAttrs: {
     git commit -m "Dummy commit for build" > /dev/null 2>&1
 
     chmod -R u+rwx deps
-
-    echo "[Nix] Patching CMakeLists to IGNORE 32-bit source..."
-    sed -i '/add_subdirectory.*src)/s/^/#/' CMakeLists.txt
   '';
 
   buildPhase = ''

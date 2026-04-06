@@ -28,6 +28,7 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
+    pkgsi686linux.zlib-ng
     pkgsi686Linux.libgcc
     pkgsi686Linux.libidn2
     pkgsi686Linux.libpsl
@@ -65,7 +66,6 @@ stdenv.mkDerivation (finalAttrs: {
     ${
       let
         deps = [
-          "zlib"
           "luajit"
           "luajson"
           "websocketpp"

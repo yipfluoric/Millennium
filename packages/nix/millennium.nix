@@ -29,7 +29,6 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
-    pkgsi686Linux.zlib-ng
     pkgsi686Linux.libgcc
     pkgsi686Linux.libidn2
     pkgsi686Linux.libpsl
@@ -50,6 +49,7 @@ stdenv.mkDerivation (finalAttrs: {
     "-DDISTRO_NIX=ON"
     "-DFETCHCONTENT_SOURCE_DIR_SNARE=${inputs.snare-src}"
     "-DLJ_DETECTED_ARCH=x86_64"
+    "-DSIZEOF_DATA_PTR=4"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];
@@ -69,6 +69,7 @@ stdenv.mkDerivation (finalAttrs: {
     ${
       let
         deps = [
+          "zlib"
           "luajit"
           "luajson"
           "websocketpp"

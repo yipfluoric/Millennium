@@ -5,7 +5,7 @@
   pkg-config,
   git,
   cacert,
-  pkgsi686Linux,
+  pkgsi686linux,
 
   lib,
   stdenv,

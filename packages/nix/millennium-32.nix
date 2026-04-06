@@ -61,8 +61,8 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
       local name="$1"
       local src="$2"
       echo "[Nix Millennium Build Setup] Preparing dependency: $name"
-      cp -r --no-preserve=mode "$src" "deps/$name"
-      chmod -R u+w "deps/$name"
+      cp -r --no-preserve=mode "$src" "build/_deps/$name"
+      chmod -R u+w "build/_deps/$name"
     }
 
     echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
@@ -87,7 +87,7 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     }
     
     echo "[Nix Millennium Build Setup] Preparing dependency: snare"
-    cp -r --no-preserve=mode "${inputs.snare-src}" "_deps/snare-src"
+    cp -r --no-preserve=mode "${inputs.snare-src}" "build/_deps/snare-src"
     chmod -R u+w "build/_deps/snare-src"
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"
@@ -103,11 +103,10 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     git add .
     git commit -m "Dummy commit for Nix Build" > /dev/null 2>&1
 
-    git init deps/luajit
-    git -C deps/luajit add .
-    git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
+    git init build/_deps/luajit
+    git -C build/_deps/luajit add .
+    git -C build/_deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
 
-    chmod -R u+rwx deps/
     chmod -R u+rwx build/_deps
 
     echo "[Nix] Patching root CMakeLists to IGNORE 64-bit source..."
@@ -119,7 +118,8 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
 
   buildPhase = ''
     runHook preBuild
-    cmake --build .
+    cmake --preset linux-release
+    cmake --build build
     runHook postBuild
   '';
 
@@ -127,7 +127,6 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/lib/
-
     install -Dm755 src/libmillennium_x86.so                             $out/lib/libmillennium_x86.so
     install -Dm755 src/boot/linux/libmillennium_bootstrap_x86.so        $out/lib/libmillennium_bootstrap_x86.so
     install -Dm755 src/libmillennium_luavm_x86                          $out/lib/libmillennium_luavm_x86 

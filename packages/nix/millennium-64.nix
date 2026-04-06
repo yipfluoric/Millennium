@@ -4,7 +4,7 @@
   bun,
   pkg-config,
   git,
-  glibc,
+  pkgsi686Linux,
   cacert,
   perl,
   
@@ -29,6 +29,13 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
+    pkgsi686Linux.libgcc
+    pkgsi686Linux.libidn2
+    pkgsi686Linux.libpsl
+    pkgsi686Linux.openssl
+    pkgsi686Linux.brotli
+    pkgsi686Linux.xz
+    pkgsi686Linux.zstd
     cacert
     perl
     libgcc

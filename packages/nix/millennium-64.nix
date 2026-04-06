@@ -41,7 +41,6 @@ stdenv.mkDerivation (finalAttrs: {
     "-DDISTRO_NIX=ON"
     "-DLJ_DETECTED_ARCH=x86_64"
     "-DSIZEOF_DATA_PTR=8"
-    "-DThreads_FOUND
     "-DFETCHCONTENT_SOURCE_DIR_SNARE=${inputs.snare-src}"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"

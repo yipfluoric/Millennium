@@ -23,7 +23,7 @@ stdenv.mkDerivation (finalAttrs: {
     ninja
     pkg-config
     git
-    bun,
+    bun
   ];
 
   buildInputs = [

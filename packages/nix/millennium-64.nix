@@ -1,7 +1,6 @@
 {
   cmake,
   ninja,
-  bun,
   pkg-config,
   git,
   cacert,
@@ -10,11 +9,14 @@
   stdenv,
 
   inputs,
+  millennium-shims,
+  millennium-assets,
+  millennium-frontend,
   ...
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "millennium-64";
-  version = "3.0.0";
+  version = "2.34.0";
 
   src = inputs.millennium-src;
 
@@ -23,7 +25,6 @@ stdenv.mkDerivation (finalAttrs: {
     ninja
     pkg-config
     git
-    bun
   ];
 
   buildInputs = [
@@ -38,8 +39,6 @@ stdenv.mkDerivation (finalAttrs: {
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
     "-DFETCHCONTENT_FULLY_DISCONNECTED=ON"
-    "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
-    "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];
 
   postPatch = ''
@@ -54,28 +53,12 @@ stdenv.mkDerivation (finalAttrs: {
       chmod -R u+w "deps/$name"
     }
 
-    echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
-    ${
-      let
-        deps = [
-          "luajit"
-          "luajson"
-          "websocketpp"
-          "fmt"
-          "json"
-          "minizip"
-          "curl"
-          "incbin"
-          "asio"
-          "abseil"
-          "re2"
-        ];
-      in
-      lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
-    }
+    echo "[Nix Millennium Build Setup] Copying flake inputs to local writable directories"
+    prepare_dep abseil "${inputs.abseil-src}"
+    prepare_dep re2 "${inputs.re2-src}"
     
     echo "[Nix Millennium Build Setup] Preparing dependency: snare"
-    cp -r --no-preserve=mode "${inputs.snare-src}" "build/_deps/snare-src"
+    cp -r --no-preserve=mode "${inputs.snare-src}" "_deps/snare-src"
     chmod -R u+w "build/_deps/snare-src"
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"
@@ -108,9 +91,8 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/lib/
-    install -Dm755 src/hhx64/libmillennium_hhx64.so                     $out/lib/libmillennium_hhx64.so
-    install -Dm755 src/boot/linux/libmillennium_bootstrap_hhx64.so      $out/lib/libmillennium_bootstrap_hhx64.so
-    install -Dm755 libmillennium_pvs64                                  $out/lib/libmillennium_pvs64
+    install -Dm755 src/hhx64/libmillennium_hhx64.so $out/lib/libmillennium_hhx64.so
+
     runHook postInstall
   '';
 

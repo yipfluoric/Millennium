@@ -41,6 +41,7 @@ stdenv.mkDerivation (finalAttrs: {
     "-DDISTRO_NIX=ON"
     "-DLJ_DETECTED_ARCH=x86_64"
     "-DSIZEOF_DATA_PTR=8"
+    "-DThreads_FOUND
     "-DFETCHCONTENT_SOURCE_DIR_SNARE=${inputs.snare-src}"
     "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
     "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
@@ -92,8 +93,6 @@ stdenv.mkDerivation (finalAttrs: {
     git commit -m "Dummy commit for build" > /dev/null 2>&1
 
     chmod -R u+rwx deps
-    echo "[Nix] Patching CMakeLists to IGNORE 32 bit zlib..."
-    sed -i '/add_subdirectory.*src\/hhx64)/s/^/#/' CMakeLists.txt
     
     echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
     sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt

@@ -93,9 +93,6 @@ stdenv.mkDerivation (finalAttrs: {
 
     chmod -R u+rwx deps/
     chmod -R u+rwx build/_deps
-    
-    echo "[Nix] Patching CMakeLists to IGNORE 32-bit source..."
-    sed -i '/add_subdirectory.*src)/s/^/#/' CMakeLists.txt
   '';
 
   buildPhase = ''

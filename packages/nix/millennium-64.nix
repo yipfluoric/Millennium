@@ -4,6 +4,7 @@
   bun,
   pkg-config,
   git,
+  nghttp2,
   cacert,
 
   lib,
@@ -12,21 +13,22 @@
   inputs,
   ...
 }:
-stdenv.mkDerivation (finalAttrs: {
-  pname = "millennium-64";
-  version = "2.34.0";
+pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
+  pname = "millennium-32";
+  version = "3.0.0";
 
   src = inputs.millennium-src;
 
   nativeBuildInputs = [
     cmake
     ninja
+    bun
     pkg-config
     git
-    bun
   ];
 
   buildInputs = [
+    nghttp2
     cacert
   ];
 
@@ -38,6 +40,8 @@ stdenv.mkDerivation (finalAttrs: {
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
     "-DFETCHCONTENT_FULLY_DISCONNECTED=ON"
+    "-DCURL_CA_BUNDLE=${cacert}/etc/ssl/certs/ca-bundle.crt"
+    "-DCURL_CA_PATH=${cacert}/etc/ssl/certs"
   ];
 
   postPatch = ''
@@ -51,7 +55,7 @@ stdenv.mkDerivation (finalAttrs: {
       chmod -R u+w "deps/$name"
     }
 
-  echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
+    echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
     ${
       let
         deps = [
@@ -71,6 +75,7 @@ stdenv.mkDerivation (finalAttrs: {
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
     }
+
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"
     echo "[Nix Millennium Build Setup] Dummy commits are used to determine versions, but flake inputs strip git history, causing issues"
 
@@ -80,13 +85,13 @@ stdenv.mkDerivation (finalAttrs: {
     git config --global user.email "nix-build@localhost"
     git config --global user.name "Nix Build"
 
+    git init
+    git add .
+    git commit -m "Dummy commit for Nix Build" > /dev/null 2>&1
+
     git init deps/luajit
     git -C deps/luajit add .
     git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
-
-    git init
-    git add .
-    git commit -m "Dummy commit for build" > /dev/null 2>&1
 
     chmod -R u+rwx deps/
 
@@ -104,7 +109,9 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/lib/
-    install -Dm755 src/hhx64/libmillennium_hhx64.so $out/lib/libmillennium_hhx64.so
+    install -Dm755 src/hhx64/libmillennium_hhx64.so                     $out/lib/libmillennium_hhx64.so
+    install -Dm755 src/boot/linux/libmillennium_bootstrap_hhx64.so      $out/lib/libmillennium_bootstrap_hhx64.so
+    install -Dm755 libmillennium_pvs64                                  $out/lib/libmillennium_pvs64
 
     runHook postInstall
   '';

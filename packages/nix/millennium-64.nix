@@ -51,10 +51,26 @@ stdenv.mkDerivation (finalAttrs: {
       chmod -R u+w "deps/$name"
     }
 
-    echo "[Nix Millennium Build Setup] Copying flake inputs to local writable directories"
-    prepare_dep abseil "${inputs.abseil-src}"
-    prepare_dep re2 "${inputs.re2-src}"
-
+  echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
+    ${
+      let
+        deps = [
+          "luajit"
+          "luajson"
+          "websocketpp"
+          "fmt"
+          "json"
+          "minizip"
+          "curl"
+          "incbin"
+          "asio"
+          "abseil"
+          "re2"
+          "snare"
+        ];
+      in
+      lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
+    }
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"
     echo "[Nix Millennium Build Setup] Dummy commits are used to determine versions, but flake inputs strip git history, causing issues"
 
@@ -63,6 +79,10 @@ stdenv.mkDerivation (finalAttrs: {
     git config --global init.defaultBranch main
     git config --global user.email "nix-build@localhost"
     git config --global user.name "Nix Build"
+
+    git init deps/luajit
+    git -C deps/luajit add .
+    git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
 
     git init
     git add .

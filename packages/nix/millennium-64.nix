@@ -97,9 +97,6 @@ stdenv.mkDerivation (finalAttrs: {
 
 
     chmod -R u+rwx deps
-    
-    echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
-    sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt
   '';
 
   buildPhase = ''

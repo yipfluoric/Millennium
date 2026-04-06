@@ -32,19 +32,13 @@ stdenv.mkDerivation (finalAttrs: {
     perl
   ];
 
-  shellHook = ''
-    export CMAKE_THREAD_LIBS_INIT="-lpthread"
-    export CMAKE_HAVE_THREADS_LIBRARY=1
-    export CMAKE_USE_WIN32_THREADS_INIT=0
-    export CMAKE_USE_PTHREADS_INIT=1
-    export THREADS_PREFER_PTHREAD_FLAG=ON
-  '';
-  
   cmakeGenerator = "Ninja";
   cmakeBuildType = "Release";
   enableParallelBuilding = true;
 
   cmakeFlags = [
+    "-DCMAKE_THREAD_LIBS_INIT="-lpthread""
+    "-DCMAKE_HAVE_THREADS_LIBRARY=1"
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
     "-DLJ_DETECTED_ARCH=x86_64"
@@ -99,6 +93,11 @@ stdenv.mkDerivation (finalAttrs: {
     git add .
     git commit -m "Dummy commit for build" > /dev/null 2>&1
 
+        git init deps/luajit
+    git -C deps/luajit add .
+    git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
+
+
     chmod -R u+rwx deps
     echo "[Nix] Patching CMakeLists to IGNORE 32 bit zlib..."
     sed -i '/add_subdirectory.*src\/hhx64)/s/^/#/' CMakeLists.txt
@@ -109,7 +108,6 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildPhase = ''
     runHook preBuild
-    cmake --preset linux-release
     cmake --build .
     runHook postBuild
   '';

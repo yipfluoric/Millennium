@@ -30,7 +30,6 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
-    pkgsi686Linux.gtk3
     pkgsi686Linux.libgcc
     pkgsi686Linux.libidn2
     pkgsi686Linux.libpsl

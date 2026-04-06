@@ -13,6 +13,8 @@
   brotli,
   xz,
   zstd,
+  cacert,
+  perl,
   
   lib,
   stdenv,

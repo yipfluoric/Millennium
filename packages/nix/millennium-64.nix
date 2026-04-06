@@ -87,6 +87,9 @@ stdenv.mkDerivation (finalAttrs: {
     git commit -m "Dummy commit for build" > /dev/null 2>&1
 
     chmod -R u+rwx deps
+    
+    echo "[Nix] Patching CMakeLists to IGNORE 32-bit source..."
+    sed -i '/add_subdirectory.*src)/s/^/#/' CMakeLists.txt
 
     echo "[Nix] Patching src/CMakeLists.txt to replace dynamic target reference..."
     sed -i 's|\$<TARGET_FILE:hhx64>|libmillennium_hhx64.so|g' src/CMakeLists.txt

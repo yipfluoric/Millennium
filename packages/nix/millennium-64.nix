@@ -107,7 +107,6 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p $out/lib/
     install -Dm755 src/hhx64/libmillennium_hhx64.so                     $out/lib/libmillennium_hhx64.so
     install -Dm755 src/boot/linux/libmillennium_bootstrap_hhx64.so      $out/lib/libmillennium_bootstrap_hhx64.so
-    install -Dm755 libmillennium_pvs64                                  $out/lib/libmillennium_pvs64
     runHook postInstall
   '';
 

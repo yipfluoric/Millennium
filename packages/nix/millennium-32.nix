@@ -131,7 +131,8 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     install -Dm755 src/libmillennium_x86.so                             $out/lib/libmillennium_x86.so
     install -Dm755 src/boot/linux/libmillennium_bootstrap_x86.so        $out/lib/libmillennium_bootstrap_x86.so
     install -Dm755 src/libmillennium_luavm_x86                          $out/lib/libmillennium_luavm_x86 
-   runHook postInstall
+    install -Dm755 libmillennium_pvs64                                  $out/lib/libmillennium_pvs64
+    runHook postInstall
   '';
 
   meta = {

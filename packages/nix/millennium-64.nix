@@ -4,6 +4,7 @@
   bun,
   pkg-config,
   git,
+  glibc,
   cacert,
   perl,
   
@@ -30,6 +31,7 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     cacert
     perl
+    glibc
   ];
 
   cmakeGenerator = "Ninja";
@@ -91,7 +93,7 @@ stdenv.mkDerivation (finalAttrs: {
     git add .
     git commit -m "Dummy commit for build" > /dev/null 2>&1
 
-        git init deps/luajit
+    git init deps/luajit
     git -C deps/luajit add .
     git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
 

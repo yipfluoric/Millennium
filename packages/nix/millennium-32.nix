@@ -6,6 +6,7 @@
   git,
   nghttp2,
   cacert,
+  perl,
 
   lib,
   pkgsi686Linux,
@@ -38,6 +39,7 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     pkgsi686Linux.xz
     pkgsi686Linux.zstd
     nghttp2
+    perl,
     cacert
   ];
 

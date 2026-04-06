@@ -5,7 +5,8 @@
   pkg-config,
   git,
   cacert,
-
+  perl,
+  
   lib,
   stdenv,
 

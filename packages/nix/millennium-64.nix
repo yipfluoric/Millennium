@@ -61,6 +61,7 @@ stdenv.mkDerivation (finalAttrs: {
     ${
       let
         deps = [
+          "zlib"
           "luajit"
           "luajson"
           "websocketpp"

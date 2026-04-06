@@ -1,10 +1,9 @@
 {
   cmake,
   ninja,
+  bun,
   pkg-config,
   git,
-  bun,
-  nghttp2,
   cacert,
 
   lib,
@@ -22,14 +21,13 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     cmake
     ninja
-    bun
     pkg-config
     git
+    bun
   ];
 
   buildInputs = [
     cacert
-    nghttp2
   ];
 
   cmakeGenerator = "Ninja";
@@ -56,9 +54,25 @@ stdenv.mkDerivation (finalAttrs: {
       chmod -R u+w "deps/$name"
     }
 
-    echo "[Nix Millennium Build Setup] Copying flake inputs to local writable directories"
-    prepare_dep abseil "${inputs.abseil-src}"
-    prepare_dep re2 "${inputs.re2-src}"
+    echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
+    ${
+      let
+        deps = [
+          "luajit"
+          "luajson"
+          "websocketpp"
+          "fmt"
+          "json"
+          "minizip"
+          "curl"
+          "incbin"
+          "asio"
+          "abseil"
+          "re2"
+        ];
+      in
+      lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
+    }
     
     echo "[Nix Millennium Build Setup] Preparing dependency: snare"
     cp -r --no-preserve=mode "${inputs.snare-src}" "build/_deps/snare-src"
@@ -79,7 +93,7 @@ stdenv.mkDerivation (finalAttrs: {
 
     chmod -R u+rwx deps/
     chmod -R u+rwx build/_deps
-
+    
     echo "[Nix] Patching CMakeLists to IGNORE 32-bit source..."
     sed -i '/add_subdirectory.*src)/s/^/#/' CMakeLists.txt
   '';
@@ -94,8 +108,9 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/lib/
-    install -Dm755 src/hhx64/libmillennium_hhx64.so $out/lib/libmillennium_hhx64.so
-
+    install -Dm755 src/hhx64/libmillennium_hhx64.so                     $out/lib/libmillennium_hhx64.so
+    install -Dm755 src/boot/linux/libmillennium_bootstrap_hhx64.so      $out/lib/libmillennium_bootstrap_hhx64.so
+    install -Dm755 libmillennium_pvs64                                  $out/lib/libmillennium_pvs64
     runHook postInstall
   '';
 

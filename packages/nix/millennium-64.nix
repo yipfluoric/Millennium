@@ -59,7 +59,6 @@ stdenv.mkDerivation (finalAttrs: {
     ${
       let
         deps = [
-          "zlib"
           "luajit"
           "luajson"
           "websocketpp"
@@ -74,7 +73,7 @@ stdenv.mkDerivation (finalAttrs: {
           "snare"
         ];
       in
-      lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") _deps)
+      lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${_dep}-src"}\"\n") deps)
     }
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"

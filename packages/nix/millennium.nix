@@ -8,6 +8,7 @@
   libxtst,
   libx11,
   cacert,
+  snare-src,
 
   lib,
   pkgsi686Linux,

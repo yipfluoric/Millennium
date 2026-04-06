@@ -44,7 +44,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
 include(FetchContent)
-FetchContent_Declare(snare GIT_REPOSITORY https://github.com/shdwmtr/libsnare.h.git GIT_TAG d356aca3742d5b05c00efe4c43cc990e12ab794c)
+FetchContent_Declare(snare GIT_REPOSITORY https://github.com/shdwmtr/libsnare.h GIT_TAG main)
 FetchContent_MakeAvailable(snare)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)

@@ -105,16 +105,16 @@
     "libgit2-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1749227175,
-        "narHash": "sha256-/xI3v7LNhpgfjv/m+sZwYDhhYvS6kQYxiiiG3+EF8Mw=",
+        "lastModified": 1764712270,
+        "narHash": "sha256-TCeEh8DpVoxpF/HkahxM3ONDjawAkIiMo6S7ogG3fLg=",
         "owner": "libgit2",
         "repo": "libgit2",
-        "rev": "0060d9cf5666f015b1067129bd874c6cc4c9c7ac",
+        "rev": "ca225744b992bf2bf24e9a2eb357ddef78179667",
         "type": "github"
       },
       "original": {
         "owner": "libgit2",
-        "ref": "v1.9.1",
+        "ref": "v1.9.2",
         "repo": "libgit2",
         "type": "github"
       }
@@ -148,59 +148,25 @@
       },
       "original": {
         "owner": "SteamClientHomebrew",
+        "ref": "master",
         "repo": "LuaJSON",
-        "rev": "0c1fabf07c42f3907287d1e4f729e0620c1fe6fd",
         "type": "github"
       }
     },
     "millennium-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1770463863,
-        "narHash": "sha256-MceGTpXobCAh5Ll/1iTWcEf6/nHY3Ll1t06JxbYc+Co=",
+        "lastModified": 1775324942,
+        "narHash": "sha256-dFe97XrnfYmv0Vq1UST6fd8/6PWd2XQbb7LBM9lvJKA=",
         "owner": "SteamClientHomebrew",
         "repo": "Millennium",
-        "rev": "1bc62c94a06f25f7e8d7e269f11cd968cf576bff",
+        "rev": "88e11158c766cf785b5fa87e639290d0fcc2e60b",
         "type": "github"
       },
       "original": {
         "owner": "SteamClientHomebrew",
+        "ref": "next",
         "repo": "Millennium",
-        "rev": "1bc62c94a06f25f7e8d7e269f11cd968cf576bff",
-        "type": "github"
-      }
-    },
-    "minhook-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1743163800,
-        "narHash": "sha256-0eGFfg365bb4zic1WTHMvKHbxuhhGp72/clu8OklHXs=",
-        "owner": "TsudaKageyu",
-        "repo": "minhook",
-        "rev": "c3fcafdc10146beb5919319d0683e44e3c30d537",
-        "type": "github"
-      },
-      "original": {
-        "owner": "TsudaKageyu",
-        "ref": "v1.3.4",
-        "repo": "minhook",
-        "type": "github"
-      }
-    },
-    "mini-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1743356736,
-        "narHash": "sha256-zBFFOlECbie7+62fTGf+NP4gNmfv2Qddw3ys6xn7o9U=",
-        "owner": "metayeti",
-        "repo": "mINI",
-        "rev": "52b66e987cb56171dc91d96115cdf094b6e4d7a0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "metayeti",
-        "ref": "0.9.18",
-        "repo": "mINI",
         "type": "github"
       }
     },
@@ -223,11 +189,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1770115704,
-        "narHash": "sha256-KHFT9UWOF2yRPlAnSXQJh6uVcgNcWlFqqiAZ7OVlHNc=",
+        "lastModified": 1775036866,
+        "narHash": "sha256-ZojAnPuCdy657PbTq5V0Y+AHKhZAIwSIT2cb8UgAz/U=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e6eae2ee2110f3d31110d5c222cd395303343b08",
+        "rev": "6201e203d09599479a3b3450ed24fa81537ebc4e",
         "type": "github"
       },
       "original": {
@@ -266,8 +232,6 @@
         "luajit-src": "luajit-src",
         "luajson-src": "luajson-src",
         "millennium-src": "millennium-src",
-        "minhook-src": "minhook-src",
-        "mini-src": "mini-src",
         "minizip-src": "minizip-src",
         "nixpkgs": "nixpkgs",
         "re2-src": "re2-src",

@@ -54,14 +54,14 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
   ];
 
   postPatch = ''
-    mkdir -p deps
+    mkdir -p _deps
 
     prepare_dep() {
       local name="$1"
       local src="$2"
       echo "[Nix Millennium Build Setup] Preparing dependency: $name"
-      cp -r --no-preserve=mode "$src" "deps/$name"
-      chmod -R u+w "deps/$name"
+      cp -r --no-preserve=mode "$src" "_deps/$name"
+      chmod -R u+w "_deps/$name"
     }
 
     echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
@@ -102,11 +102,11 @@ pkgsi686Linux.stdenv.mkDerivation (finalAttrs: {
     git add .
     git commit -m "Dummy commit for Nix Build" > /dev/null 2>&1
 
-    git init deps/luajit
-    git -C deps/luajit add .
-    git -C deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
+    git init _deps/luajit
+    git -C _deps/luajit add .
+    git -C _deps/luajit commit -m "Dummy Commit for Luajit Build" > /dev/null 2>&1
 
-    chmod -R u+rwx deps/
+    chmod -R u+rwx _deps/
   '';
 
   buildPhase = ''

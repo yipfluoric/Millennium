@@ -31,7 +31,7 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     cacert
     perl
-    glibc
+    libgcc
   ];
 
   cmakeGenerator = "Ninja";

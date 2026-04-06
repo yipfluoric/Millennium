@@ -37,7 +37,7 @@ stdenv.mkDerivation (finalAttrs: {
   enableParallelBuilding = true;
 
   cmakeFlags = [
-    "-DCMAKE_HAVE_THREADS_LIBRARY=1"
+    "-DCMAKE_HAVE_THREADS_LIBRARY=0"
     "-DGITHUB_ACTION_BUILD=ON"
     "-DDISTRO_NIX=ON"
     "-DLJ_DETECTED_ARCH=x86_64"

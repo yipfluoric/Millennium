@@ -7,6 +7,7 @@
   pkgsi686Linux,
   cacert,
   perl,
+  libgcc,
   
   lib,
   stdenv,

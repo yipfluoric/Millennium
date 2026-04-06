@@ -58,6 +58,8 @@ stdenv.mkDerivation (finalAttrs: {
     ${
       let
         deps = [
+          "luajit"
+          "luajson"
           "websocketpp"
           "fmt"
           "json"
@@ -71,7 +73,7 @@ stdenv.mkDerivation (finalAttrs: {
       in
       lib.concatStrings (map (dep: "prepare_dep ${dep} \"${inputs."${dep}-src"}\"\n") deps)
     }
-
+    
     echo "[Nix Millennium Build Setup] Preparing dependency: snare"
     cp -r --no-preserve=mode "${inputs.snare-src}" "build/_deps/snare-src"
     chmod -R u+w "build/_deps/snare-src"
@@ -105,6 +107,7 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p $out/lib/
     install -Dm755 src/hhx64/libmillennium_hhx64.so                     $out/lib/libmillennium_hhx64.so
     install -Dm755 src/boot/linux/libmillennium_bootstrap_hhx64.so      $out/lib/libmillennium_bootstrap_hhx64.so
+    install -Dm755 libmillennium_pvs64                                  $out/lib/libmillennium_pvs64
     runHook postInstall
   '';
 

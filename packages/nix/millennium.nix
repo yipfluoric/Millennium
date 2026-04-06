@@ -39,7 +39,7 @@ stdenv.mkDerivation (finalAttrs: {
     pkgsi686Linux.brotli
     pkgsi686Linux.xz
     pkgsi686Linux.zstd
-    pkgs.nghttp2
+    nghttp2
     cacert
     libxtst
     libx11

@@ -43,14 +43,15 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   postPatch = ''
-    mkdir -p _deps
+    mkdir -p deps
+    mkdir -p build/_deps
 
     prepare_dep() {
       local name="$1"
       local src="$2"
       echo "[Nix Millennium Build Setup] Preparing dependency: $name"
-      cp -r --no-preserve=mode "$src" "_deps/$name"
-      chmod -R u+w "_deps/$name"
+      cp -r --no-preserve=mode "$src" "deps/$name"
+      chmod -R u+w "deps/$name"
     }
 
     echo "[Nix Millennium Build Setup] Copying all flake inputs to local writable directories"
@@ -74,8 +75,8 @@ stdenv.mkDerivation (finalAttrs: {
     }
     
     echo "[Nix Millennium Build Setup] Preparing dependency: snare"
-    cp -r --no-preserve=mode "${inputs.snare-src}" "_deps/snare-src"
-    chmod -R u+w "_deps/snare-src"
+    cp -r --no-preserve=mode "${inputs.snare-src}" "build/_deps/snare-src"
+    chmod -R u+w "build/_deps/snare-src"
 
     echo "[Nix Millennium Build Setup] Initializing Git Repos and adding Dummy Commits"
     echo "[Nix Millennium Build Setup] Dummy commits are used to determine versions, but flake inputs strip git history, causing issues"
@@ -90,8 +91,9 @@ stdenv.mkDerivation (finalAttrs: {
     git add .
     git commit -m "Dummy commit for build" > /dev/null 2>&1
 
-    chmod -R u+rwx _deps/
-
+    chmod -R u+rwx deps/
+    chmod -R u+rwx build/_deps
+    
     echo "[Nix] Patching CMakeLists to IGNORE 32-bit source..."
     sed -i '/add_subdirectory.*src)/s/^/#/' CMakeLists.txt
   '';

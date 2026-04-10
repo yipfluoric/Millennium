@@ -14,7 +14,7 @@
 <br>
 <br>
 </div>
-
+Note: not working on this. cant stand nix for rn. if you want you can take some of the code from here if it is not too badly written.
 Millennium is an **open-source low-code modding framework** to create, manage and use themes/plugins<br/> for the desktop Steam Client without any low-level internal interaction or overhead.
 
 If you enjoy this tool, please consider starring the project ⭐
